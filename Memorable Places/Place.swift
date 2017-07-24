@@ -11,7 +11,7 @@ import CoreData
 
 class Place: NSManagedObject {
 
-    class func createPlace(_ newPlace: Place, in context: NSManagedObjectContext) throws -> Place {
+    class func createPlace(_ place: OldPlace, in context: NSManagedObjectContext) throws -> Place {
         /*
          * find example - we dont need find an idividual at the moment...
          *
@@ -22,7 +22,7 @@ class Place: NSManagedObject {
         do {
             let matches = try context.fetch(request)
             if matches.count > 0 {
-                assert(matches.count > 1, "database inconsistent - there should only be one")
+                assert(matches.count == 1, "database inconsistent - there should only be one")
                 return matches[0]
             }
         } catch {
@@ -32,12 +32,12 @@ class Place: NSManagedObject {
         */
  
         // create
-        let place = Place(context: context)
-        place.name = newPlace.name
-        place.latitude = newPlace.latitude
-        place.longitude = newPlace.longitude
+        let newPlace = Place(context: context)
+        newPlace.name = place.name
+        newPlace.latitude = place.latitude
+        newPlace.longitude = place.longitude
         let currentDate = Date()
-        place.created = currentDate as NSDate
-        
+        newPlace.created = currentDate as NSDate
+        return newPlace
     }
 }

@@ -12,9 +12,9 @@ import CoreData
 class PlacesTableViewController: UITableViewController {
     
     var container: NSPersistentContainer? = AppDelegate.persistentContainer // NOTE - using conviniance method
-    var places: [OldPlace] = []
+    var places: [Place] = []
     var place: Place?
-    var currentlySelectedPlace: OldPlace?
+    var currentlySelectedPlace: Place?
     
     @IBOutlet var placeTableView: UITableView!
 
@@ -43,7 +43,7 @@ class PlacesTableViewController: UITableViewController {
     
     // MARK: - Data storage 
     
-    private func getAllPlaces() -> [OldPlace] {
+    private func getAllPlaces() -> [Place] {
         print("getting all places")
 //        container?.performBackgroundTask { context in
 //            print("performBackgroundTask")
@@ -171,6 +171,7 @@ class PlacesTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let placeViewController = segue.destination as? PlaceViewController {
+            placeViewController.container = container // use the same container - ok, can use the which would work just fine in this case
             if let identifier = segue.identifier {
                 switch identifier {
                 case "addPlace":
