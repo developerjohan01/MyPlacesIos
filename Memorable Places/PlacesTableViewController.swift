@@ -56,7 +56,13 @@ class PlacesTableViewController: UITableViewController {
     }
     
     func deletePlace(place: Place) {
-        print("TODO delete")
+        print("delete")
+        // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
+        if let context = container?.viewContext  {
+            context.perform {
+                context.delete(place)
+            }
+        }
     }
     
     // MARK: - Table view data source
@@ -105,8 +111,9 @@ class PlacesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source FIRST
-            // TODO 
-            places.remove(at: indexPath.row)
+            // TODO
+            let placeToDeleteFromDatabase = places.remove(at: indexPath.row)
+            deletePlace(place: placeToDeleteFromDatabase)
             tableView.deleteRows(at: [indexPath], with: .fade)
 
         } /* else if editingStyle == .insert {
