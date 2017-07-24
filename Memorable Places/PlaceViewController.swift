@@ -61,6 +61,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                                 newName = thoroughfare
                             }
                         } else if !subAdministrativeArea.isEmpty {
+                            // TODO Prompt the user for a Name!
                             newName = subAdministrativeArea
                         }
                         newPlace.name = newName
@@ -107,19 +108,19 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     private func saveNewPlace(_ place: Place) {
-        /* TODO
-         let decoded  = UserDefaults.standard.object(forKey: UserDefaultsKeys.jobCategory.rawValue) as! Data
-         let decodedTeams = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! JobCategory
-         print(decodedTeams.name)
-         */
-//        var placeList: [Place] = []
-//        if let placeListObjectData = UserDefaults.standard.object(forKey: "placeList") as? Data {
-//            placeList = NSKeyedUnarchiver.unarchiveObject(with: placeListObjectData) as! [Place]
-//        }
-//        placeList.append(place)
-//        print ("Added: " + place.name)
-//        let data = NSKeyedArchiver.archivedData(withRootObject: placeList)
-//        UserDefaults.standard.set(data, forKey: "placeList")
+        container?.performBackgroundTask { (context) in
+            _ = try? Place.createPlace(place, in: context)
+        }
+    }
+    
+    private func printDatabaseStatistics() {
+        if let context = container?.viewContext {
+            let request: NSFetchRequest<Place> = Place.fetchRequest()
+            if let placeCount = (try? context.fetch(request))?.count {
+                print("Number of Places in  the Database: \(placeCount)")
+            }
+        }
+        
     }
     
     private func setRegionOnMap(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {

@@ -12,11 +12,8 @@ import CoreData
 class PlacesTableViewController: UITableViewController {
     
     var container: NSPersistentContainer? = AppDelegate.persistentContainer // NOTE - using conviniance method
-    
     var places: [OldPlace] = []
-    
     var place: Place?
-    
     var currentlySelectedPlace: OldPlace?
     
     @IBOutlet var placeTableView: UITableView!
