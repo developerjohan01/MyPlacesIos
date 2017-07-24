@@ -21,8 +21,6 @@ class PlacesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        // places = getAllPlaces()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -37,58 +35,28 @@ class PlacesTableViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        places = getAllPlaces()
-        placeTableView.reloadData()
+        getAllPlaces()
     }
     
     // MARK: - Data storage 
     
-    private func getAllPlaces() -> [Place] {
+    private func getAllPlaces() {
         print("getting all places")
-//        container?.performBackgroundTask { context in
-//            print("performBackgroundTask")
-//            
-//            let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
-//            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-//            
-//            )
-//            
-        
-            //context.fetch(NSFetchRequest<NSFetchRequestResult>)
-        //        }
-        // TODO
-//        var placeList = [Place]()
-//        if let placeListObjectData = UserDefaults.standard.object(forKey: "placeList") as? Data {
-//            placeList = NSKeyedUnarchiver.unarchiveObject(with: placeListObjectData) as! [Place]
-//        }
-//        places = placeList
-        //TODO
-//        let placeListObject = UserDefaults.standard.object(forKey: "placeList")
-//        if (placeListObject as? [String]) != nil {
-//            places = placeListObject as! [Place]
-//        }
-        if places.count == 0 {
-            addDefaultPlacesToPlacesList()
+
+        // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
+        if let context = container?.viewContext  {
+            context.perform {
+                let request: NSFetchRequest<Place> = Place.fetchRequest()
+                if let placeArray = try? context.fetch(request) {
+                    self.places = placeArray
+                    self.placeTableView.reloadData()
+                }
+            }
         }
-        return places
     }
     
     func savePlace(place: Place) {
         print("TODO Save")
-    }
-    
-    func addDefaultPlacesToPlacesList() {
-//        let homePlace = OldPlace()
-//        homePlace.name = "Home"
-//        homePlace.latitude = -33.871487
-//        homePlace.longitude = 18.540468
-//        places.append(homePlace)
-//        
-//        let workPlace = OldPlace()
-//        workPlace.name = "Polymorph"
-//        workPlace.latitude = -33.965431
-//        workPlace.longitude = 18.835943
-//        places.append(workPlace)
     }
     
     // MARK: - Table view data source
@@ -107,12 +75,10 @@ class PlacesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath)
 
-        cell.textLabel?.text = "TODO"
-        cell.detailTextLabel?.text = "TODO too"
-//        cell.textLabel?.text = places[indexPath.row].name
-//        let lat = places[indexPath.row].latitude
-//        let lon = places[indexPath.row].longitude
-//        cell.detailTextLabel?.text = "(\(String(format: "%.03f", lat)), \(String(format: "%.03f",lon)))"
+        cell.textLabel?.text = places[indexPath.row].name
+        let lat = places[indexPath.row].latitude
+        let lon = places[indexPath.row].longitude
+        cell.detailTextLabel?.text = "(\(String(format: "%.03f", lat)), \(String(format: "%.03f",lon)))"
 
         return cell
     }
