@@ -55,8 +55,8 @@ class PlacesTableViewController: UITableViewController {
         }
     }
     
-    func savePlace(place: Place) {
-        print("TODO Save")
+    func deletePlace(place: Place) {
+        print("TODO delete")
     }
     
     // MARK: - Table view data source
@@ -105,6 +105,7 @@ class PlacesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source FIRST
+            // TODO 
             places.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
 
