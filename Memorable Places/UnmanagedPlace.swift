@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class OldPlace: NSObject {
+class UnmanagedPlace: NSObject {
     var name: String = ""
     var latitude: CLLocationDegrees = 0
     var longitude: CLLocationDegrees = 0

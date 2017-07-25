@@ -17,7 +17,7 @@
 		AA7B6BA41F20A352001B2A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA7B6BA21F20A352001B2A77 /* LaunchScreen.storyboard */; };
 		AA7B6BAC1F20A4E3001B2A77 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B6BAB1F20A4E3001B2A77 /* PlacesTableViewController.swift */; };
 		AA7B6BAE1F20A599001B2A77 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B6BAD1F20A599001B2A77 /* PlaceViewController.swift */; };
-		AA7B6BB11F20B7B2001B2A77 /* OldPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B6BB01F20B7B2001B2A77 /* OldPlace.swift */; };
+		AA7B6BB11F20B7B2001B2A77 /* UnmanagedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B6BB01F20B7B2001B2A77 /* UnmanagedPlace.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		AA7B6BA51F20A352001B2A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA7B6BAB1F20A4E3001B2A77 /* PlacesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
 		AA7B6BAD1F20A599001B2A77 /* PlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
-		AA7B6BB01F20B7B2001B2A77 /* OldPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldPlace.swift; sourceTree = "<group>"; };
+		AA7B6BB01F20B7B2001B2A77 /* UnmanagedPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnmanagedPlace.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 				AA7B6BA51F20A352001B2A77 /* Info.plist */,
 				AA7B6BAB1F20A4E3001B2A77 /* PlacesTableViewController.swift */,
 				AA7B6BAD1F20A599001B2A77 /* PlaceViewController.swift */,
-				AA7B6BB01F20B7B2001B2A77 /* OldPlace.swift */,
+				AA7B6BB01F20B7B2001B2A77 /* UnmanagedPlace.swift */,
 				AA294B2C1F21DFAB004055F8 /* MapHelper.swift */,
 				AA294B531F220056004055F8 /* Places.xcdatamodeld */,
 				AA294B561F220394004055F8 /* Place.swift */,
@@ -177,7 +177,7 @@
 				AA7B6BAE1F20A599001B2A77 /* PlaceViewController.swift in Sources */,
 				AA7B6B9A1F20A352001B2A77 /* AppDelegate.swift in Sources */,
 				AA7B6BAC1F20A4E3001B2A77 /* PlacesTableViewController.swift in Sources */,
-				AA7B6BB11F20B7B2001B2A77 /* OldPlace.swift in Sources */,
+				AA7B6BB11F20B7B2001B2A77 /* UnmanagedPlace.swift in Sources */,
 				AA294B571F220394004055F8 /* Place.swift in Sources */,
 				AA294B551F220056004055F8 /* Places.xcdatamodeld in Sources */,
 			);

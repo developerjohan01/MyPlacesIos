@@ -24,6 +24,8 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func longPress(_ sender: UILongPressGestureRecognizer) {
         print("Pressed for a long time")
+        // to avoid multiple events, you should use --> 
+        //    --> if sender.state == UIGestureRecognizerState.began {
         if self.mapViewMode == .add && !addingPlace {
             addingPlace = true
             let point = sender.location(in: map)
@@ -52,7 +54,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                             "\n" + postalCode +
                             "\n" + country)
                         
-                        let newPlace = OldPlace()
+                        let newPlace = UnmanagedPlace()
                         var newName = "Unknown Address"
                         if !thoroughfare.isEmpty {
                             if !subThoroughfare.isEmpty {
@@ -83,7 +85,6 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print(mapViewMode)
-//        print("place: \(displayPlace?.name ?? "-")")
         if mapViewMode == .show {
             if displayPlace != nil {
                showOnMap(place: displayPlace!)
@@ -97,17 +98,15 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("locationManager")
         let userLocation: CLLocation = locations[0] // Just use the first one
         let latitude = userLocation.coordinate.latitude
         let longitude = userLocation.coordinate.longitude
         setRegionOnMap(latitude: latitude, longitude: longitude)
-        //map.setCenter(coordinate, animated: true)
-        print("stopUpdatingLocation")
+        // You dont need to repeatedly update the location --> stopUpdatingLocation
         locationManager.stopUpdatingLocation()
     }
 
-    private func saveNewPlace(_ place: OldPlace) {
+    private func saveNewPlace(_ place: UnmanagedPlace) {
         container?.performBackgroundTask { [weak self] (context) in
             _ = try? Place.createPlace(place, in: context)
             try? context.save()
@@ -119,13 +118,15 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
         if let context = container?.viewContext {
             context.perform {
-                let request: NSFetchRequest<Place> = Place.fetchRequest()
-                if let placeCount = (try? context.fetch(request))?.count {
-                    print("Number of Places in  the Database: \(placeCount)")
-                }
-                
+                /*
+                    // Not efficient
+                    let request: NSFetchRequest<Place> = Place.fetchRequest()
+                    if let placeCount = (try? context.fetch(request))?.count {
+                        print("Number of Places in  the Database: \(placeCount)")
+                    }
+                */
                 if let placeCountToo = (try? context.count(for: Place.fetchRequest())) {
-                    print("Number of Places in  the Database: \(placeCountToo) <-- Efficient")
+                    print("Number of Places in  the Database: \(placeCountToo)")
                 }
             }
         }
@@ -141,8 +142,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         map.setRegion(region, animated: true)
     }
 
-    private func showOnMap(place: OldPlace) {
-        //        print("showOnMap \(place.name)")
+    private func showOnMap(place: UnmanagedPlace) {
         let latitude: CLLocationDegrees = place.latitude
         let longitude: CLLocationDegrees = place.longitude
         setRegionOnMap(latitude: latitude, longitude: longitude)
@@ -153,13 +153,12 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         map.addAnnotation(annotation)
     }
     
-    // TODO look at removing the OldPlace object
     private func showOnMap(place: Place) {
-        let oldPlace = OldPlace()
-        oldPlace.name = place.name ?? ""
-        oldPlace.latitude = place.latitude
-        oldPlace.longitude = place.longitude
-        showOnMap(place: oldPlace)
+        let unmanagedPlace = UnmanagedPlace()
+        unmanagedPlace.name = place.name ?? ""
+        unmanagedPlace.latitude = place.latitude
+        unmanagedPlace.longitude = place.longitude
+        showOnMap(place: unmanagedPlace)
     }
     
     override func didReceiveMemoryWarning() {
