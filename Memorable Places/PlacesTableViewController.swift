@@ -13,19 +13,12 @@ class PlacesTableViewController: UITableViewController {
     
     var container: NSPersistentContainer? = AppDelegate.persistentContainer // NOTE - using conviniance method
     var places: [Place] = []
-    var place: Place?
     var currentlySelectedPlace: Place?
     
     @IBOutlet var placeTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,7 +35,6 @@ class PlacesTableViewController: UITableViewController {
     
     private func getAllPlaces() {
         print("getting all places")
-
         // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
         if let context = container?.viewContext  {
             context.perform {
@@ -91,21 +83,14 @@ class PlacesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         self.currentlySelectedPlace = places[indexPath.row]
-//        print("willSelect \(self.currentlySelectedPlace?.name ?? "")")
+        // print("willSelect \(self.currentlySelectedPlace?.name ?? "")")
         return indexPath
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.currentlySelectedPlace = places[indexPath.row]
-//        print("didSelect \(self.currentlySelectedPlace?.name ?? "")")
+        // print("didSelect \(self.currentlySelectedPlace?.name ?? "")")
     }
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -116,27 +101,8 @@ class PlacesTableViewController: UITableViewController {
             deletePlace(place: placeToDeleteFromDatabase)
             tableView.deleteRows(at: [indexPath], with: .fade)
 
-        } /* else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    */
+        }
     }
-    
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 

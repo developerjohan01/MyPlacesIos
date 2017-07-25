@@ -46,13 +46,8 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                         let subThoroughfare = placemark.subThoroughfare ?? ""
                         let thoroughfare = placemark.thoroughfare ?? ""
                         let subAdministrativeArea = placemark.subAdministrativeArea ?? ""
-                        let country = placemark.country ?? ""
-                        let postalCode = placemark.postalCode ?? ""
-                        
-                        print("***\n" + subThoroughfare + " " + thoroughfare +
-                            "\n" + subAdministrativeArea +
-                            "\n" + postalCode +
-                            "\n" + country)
+                        // let country = placemark.country ?? ""
+                        // let postalCode = placemark.postalCode ?? ""
                         
                         let newPlace = UnmanagedPlace()
                         var newName = "Unknown Address"

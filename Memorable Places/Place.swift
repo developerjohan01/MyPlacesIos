@@ -11,9 +11,10 @@ import CoreData
 
 class Place: NSManagedObject {
 
-    class func createPlace(_ place: OldPlace, in context: NSManagedObjectContext) throws -> Place {
+    class func createPlace(_ place: UnmanagedPlace, in context: NSManagedObjectContext) throws -> Place {
         /*
-         * find example - we dont need find an idividual at the moment...
+         * find example - we dont need find an idividual place at the moment
+         * so there is no unique id 
          *
         let request: NSFetchRequest<Place> = Place.fetchRequest()
         request.predicate = NSPredicate(format: "id_what_you_called_it = %@", (newPlace.latitude + newPlace.longitude))
