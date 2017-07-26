@@ -42,6 +42,7 @@ class PlacesTableViewController: UITableViewController {
                 if let placeArray = try? context.fetch(request) {
                     self.places = placeArray
                     self.placeTableView.reloadData()
+                    self.printDatabaseStatistics()
                 }
             }
         }
@@ -53,6 +54,7 @@ class PlacesTableViewController: UITableViewController {
         if let context = container?.viewContext  {
             context.perform {
                 context.delete(place)
+                try? context.save() // NOTE - no save, no permanent delete
             }
         }
     }
@@ -130,5 +132,15 @@ class PlacesTableViewController: UITableViewController {
         }
     }
     
+    private func printDatabaseStatistics() {
+        // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
+        if let context = container?.viewContext {
+            context.perform {
+                if let placeCountToo = (try? context.count(for: Place.fetchRequest())) {
+                    print("Number of Places in  the Database: \(placeCountToo)")
+                }
+            }
+        }
+    }
 
 }
