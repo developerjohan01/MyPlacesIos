@@ -19,22 +19,24 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     var displayPlace: Place?
     var locationManager = CLLocationManager()
     var addingPlace = false
+    var alert: UIAlertController?
     
     @IBOutlet weak var map: MKMapView!
     
     @IBAction func longPress(_ sender: UILongPressGestureRecognizer) {
-        print("Pressed for a long time")
+        print("Pressed for a long time...")
         // to avoid multiple events, you should use --> 
         //    --> if sender.state == UIGestureRecognizerState.began {
         if self.mapViewMode == .add && !addingPlace {
             addingPlace = true
+            print("... using the long press")
             let point = sender.location(in: map)
             print("x: \(point.x) y: \(point.y)")
-            let cooardinate = map.convert(point, toCoordinateFrom: map)
-            let location = CLLocation(latitude: cooardinate.latitude, longitude: cooardinate.longitude)
+            let coordinate = map.convert(point, toCoordinateFrom: map)
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             
             let annotation: MKPointAnnotation = MKPointAnnotation()
-            annotation.coordinate = cooardinate
+            annotation.coordinate = coordinate
             map.addAnnotation(annotation)
             
             CLGeocoder().reverseGeocodeLocation(location , completionHandler: { (placemarks, error) in
@@ -45,11 +47,10 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                     if let placemark = placemarks?[0] {
                         let subThoroughfare = placemark.subThoroughfare ?? ""
                         let thoroughfare = placemark.thoroughfare ?? ""
-                        let subAdministrativeArea = placemark.subAdministrativeArea ?? ""
-                        // let country = placemark.country ?? ""
+                        // let subAdministrativeArea = placemark.subAdministrativeArea ?? ""
+                        let country = placemark.country ?? ""
                         // let postalCode = placemark.postalCode ?? ""
                         
-                        let newPlace = UnmanagedPlace()
                         var newName = "Unknown Address"
                         if !thoroughfare.isEmpty {
                             if !subThoroughfare.isEmpty {
@@ -57,23 +58,64 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                             } else {
                                 newName = thoroughfare
                             }
-                        } else if !subAdministrativeArea.isEmpty {
-                            // TODO Prompt the user for a Name!
-                            newName = subAdministrativeArea
+                            self.setNameShowOnMapAndSave(placeName: newName, coordinate: coordinate, annotation: annotation)
+                            self.addingPlace = false
+                        } else {
+                            // Could not find the Address - Prompt the user for the Address/Name!
+                            self.alert = UIAlertController(title: "Address not found", message: "Could not find an address, add a place address or name", preferredStyle: .alert)
+                            self.alert?.addTextField(configurationHandler: { (textField) in
+                                textField.placeholder = "Unique place address or name"
+                            })
+                            self.alert?.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: { (action) in
+                                print(action.title!)
+                                if !((self.alert?.textFields?.first?.text?.isEmpty)!) {
+                                    newName = (self.alert?.textFields?.first?.text)!
+                                } else {
+                                    newName = self.getSomewhatRandomAddress(basicAddress: newName, country: country)
+                                }
+                                self.setNameShowOnMapAndSave(placeName: newName, coordinate: coordinate, annotation: annotation)
+                                self.addingPlace = false
+                            }))
+                            self.alert?.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
+                                print(action.title!)
+                                newName = self.getSomewhatRandomAddress(basicAddress: newName, country: country)
+                                self.setNameShowOnMapAndSave(placeName: newName, coordinate: coordinate, annotation: annotation)
+                                self.addingPlace = false
+                            }))
+
+                            self.present(self.alert!, animated: true, completion: {
+                                print("Alert presented!")
+                            })
                         }
-                        newPlace.name = newName
-                        newPlace.longitude = cooardinate.longitude
-                        newPlace.latitude = cooardinate.latitude
                         
-                        self.map.removeAnnotation(annotation)
-                        
-                        self.showOnMap(place: newPlace)
-                        self.saveNewPlace(newPlace)
-                        self.addingPlace = false
                     }
                 }
             })
         }
+    }
+    
+    private func getSomewhatRandomAddress(basicAddress: String, country: String?) -> String {
+        var randomIshAddress = basicAddress
+        if country != nil {
+            if !(country!.isEmpty) {
+                randomIshAddress = randomIshAddress + " " + country!
+            }
+        }
+        let randomInt = Int(arc4random_uniform(100000) + 1)
+        randomIshAddress = randomIshAddress + " " + String(randomInt)
+        return randomIshAddress
+    }
+    
+    private func setNameShowOnMapAndSave(placeName: String, coordinate: CLLocationCoordinate2D, annotation: MKPointAnnotation) {
+        let newPlace = UnmanagedPlace()
+        newPlace.name = placeName
+        newPlace.longitude = coordinate.longitude
+        newPlace.latitude = coordinate.latitude
+        
+        self.map.removeAnnotation(annotation)
+        
+        self.showOnMap(place: newPlace)
+        self.saveNewPlace(newPlace)
     }
     
     override func viewDidLoad() {
