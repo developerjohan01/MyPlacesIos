@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    // MARK: - Conviniance 
+    
     // Conviniance method; use --> let coreDataContainer = AppDelegate.persistentContainer
     static var persistentContainer: NSPersistentContainer {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -24,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return persistentContainer.viewContext
     }
 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

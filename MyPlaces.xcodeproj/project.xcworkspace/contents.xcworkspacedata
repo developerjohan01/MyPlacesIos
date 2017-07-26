@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Memorable Places.xcodeproj">
+      location = "self:/Users/johannilsson/projects/other/ios/Maps/MyPlaces/MyPlaces.xcodeproj">
    </FileRef>
 </Workspace>
