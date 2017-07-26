@@ -39,6 +39,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
             annotation.coordinate = coordinate
             map.addAnnotation(annotation)
             
+            // Get/find the Address
             CLGeocoder().reverseGeocodeLocation(location , completionHandler: { (placemarks, error) in
                 if error != nil {
                     print(error!)
@@ -61,7 +62,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                             self.setNameShowOnMapAndSave(placeName: newName, coordinate: coordinate, annotation: annotation)
                             self.addingPlace = false
                         } else {
-                            // Could not find the Address - Prompt the user for the Address/Name!
+                            // Could not get/find the Address - Prompt the user for the Address/Name!
                             self.alert = UIAlertController(title: "Address not found", message: "Could not find an address, add a place address or name", preferredStyle: .alert)
                             self.alert?.addTextField(configurationHandler: { (textField) in
                                 textField.placeholder = "Unique place address or name"
@@ -78,8 +79,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                             }))
                             self.alert?.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
                                 print(action.title!)
-                                newName = self.getSomewhatRandomAddress(basicAddress: newName, country: country)
-                                self.setNameShowOnMapAndSave(placeName: newName, coordinate: coordinate, annotation: annotation)
+                                self.map.removeAnnotation(annotation)
                                 self.addingPlace = false
                             }))
 
