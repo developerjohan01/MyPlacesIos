@@ -1,4 +1,4 @@
-# MyPlaces - iOS
+# MyPlaces - iOS (Swift 3 - iOS 10)
 Small iOS demo app that lets the user save places in a list (UITableView) by selecting (using *long press*) on a map
 
 Showing how to:
