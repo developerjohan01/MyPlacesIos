@@ -51,7 +51,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
                         let country = placemark.country ?? ""
                         // let postalCode = placemark.postalCode ?? ""
                         
-                        var newName = "Unknown Address"
+                        var newName = "Unknown"
                         if !thoroughfare.isEmpty {
                             if !subThoroughfare.isEmpty {
                                 newName = subThoroughfare + " " + thoroughfare
@@ -96,13 +96,13 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     
     private func getSomewhatRandomAddress(basicAddress: String, country: String?) -> String {
         var randomIshAddress = basicAddress
+        let randomInt = Int(arc4random_uniform(10000))
+        randomIshAddress = randomIshAddress + String(randomInt)
         if country != nil {
             if !(country!.isEmpty) {
-                randomIshAddress = randomIshAddress + " " + country!
+                randomIshAddress = randomIshAddress + ", " + country!
             }
         }
-        let randomInt = Int(arc4random_uniform(100000) + 1)
-        randomIshAddress = randomIshAddress + " " + String(randomInt)
         return randomIshAddress
     }
     
