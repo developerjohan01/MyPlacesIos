@@ -27,7 +27,9 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         print("Pressed for a long time...")
         // to avoid multiple events, you should use --> 
         //    --> if sender.state == UIGestureRecognizerState.began {
-        if self.mapViewMode == .add && !addingPlace {
+        if !addingPlace {
+            // to only allow this in "add mode" use -->
+            //    --> if self.mapViewMode == .add && !addingPlace {
             addingPlace = true
             print("... using the long press")
             let point = sender.location(in: map)
