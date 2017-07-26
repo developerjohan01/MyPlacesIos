@@ -8,3 +8,5 @@ Showing how to:
  - segue from a table cell to a detail screen (the map) 
  - save data (the Places, only basic funtionality with 1 table) - *CoreData*
  
+NOTE 
+- this is **not** a best practices guide
