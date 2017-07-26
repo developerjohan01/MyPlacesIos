@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Memorable Places-->
+        <!--Places-->
         <scene sceneID="8Z0-q0-0Uu">
             <objects>
-                <tableViewController title="Memorable Places" id="X37-pZ-mEQ" customClass="PlacesTableViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Places" id="X37-pZ-mEQ" customClass="PlacesTableViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="AC9-VU-mfo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -51,7 +51,7 @@
                             <outlet property="delegate" destination="X37-pZ-mEQ" id="LG6-VJ-lJX"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Memorable Places" id="HNR-9h-jxJ">
+                    <navigationItem key="navigationItem" title="Places" id="HNR-9h-jxJ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AIv-qP-ikE">
                             <connections>
                                 <segue destination="sTL-fN-u2e" kind="show" identifier="addPlace" id="Ecn-6E-zx3"/>
