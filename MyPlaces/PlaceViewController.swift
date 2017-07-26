@@ -17,9 +17,9 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
     
     var mapViewMode: ViewMode = .add
     var displayPlace: Place?
-    var locationManager = CLLocationManager()
-    var addingPlace = false
-    var alert: UIAlertController?
+    private var locationManager = CLLocationManager()
+    private var addingPlace = false
+    private var alert: UIAlertController?
     
     @IBOutlet weak var map: MKMapView!
     
@@ -205,17 +205,7 @@ class PlaceViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    // MARK: - Screen state
     enum ViewMode {
         case add
         case show

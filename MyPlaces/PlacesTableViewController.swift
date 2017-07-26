@@ -12,8 +12,8 @@ import CoreData
 class PlacesTableViewController: UITableViewController {
     
     var container: NSPersistentContainer? = AppDelegate.persistentContainer // NOTE - using conviniance method
-    var places: [Place] = []
-    var currentlySelectedPlace: Place?
+    private var places: [Place] = []
+    private var currentlySelectedPlace: Place?
     
     @IBOutlet var placeTableView: UITableView!
 
@@ -48,7 +48,7 @@ class PlacesTableViewController: UITableViewController {
         }
     }
     
-    func deletePlace(place: Place) {
+    private func deletePlace(place: Place) {
         print("delete")
         // NOTE this need to hapen on the MAIN thread if using viewContext --> context.perform()
         if let context = container?.viewContext  {
@@ -113,7 +113,7 @@ class PlacesTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let placeViewController = segue.destination as? PlaceViewController {
-            placeViewController.container = container // use the same container - ok, can use the which would work just fine in this case
+            placeViewController.container = container // use the same container - the default would work just fine in this case
             if let identifier = segue.identifier {
                 switch identifier {
                 case "addPlace":
